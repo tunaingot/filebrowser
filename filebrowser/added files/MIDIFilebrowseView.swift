@@ -106,9 +106,13 @@ extension MIDIFilebrowseView: UINavigationControllerDelegate, UITableViewDelegat
         
         fileListTableView.delegate = self
         fileListTableView.dataSource = self
-        if title == nil {
+        
+        if currentDirectory == FileManager.default.documentPath! {
             title = "Files".localized
+        } else {
+            title = currentDirectory.lastPathComponent
         }
+        
         /*----------------------------------------------------------------------
          tool bar
          ---------------------------------------------------------------------*/
