@@ -171,7 +171,7 @@ extension MIDIFilebrowseView: UINavigationControllerDelegate, UITableViewDelegat
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
         let item = FileManager.default.MIDIContents(ofDirectory: currentDirectory)[indexPath.row]
         
-        cell.textLabel?.text = item.lastPathComponent
+        cell.textLabel?.text = item.lastPathComponent.deletingPathExtension
         
         if item.isDirectory {                           //ディレクトリなら
             cell.accessoryType = .disclosureIndicator   //奥の階層がある目印をつける
@@ -309,6 +309,16 @@ extension String {
             return String(self[index(start, offsetBy: 1) ..< endIndex])
         } else {
             return nil
+        }
+    }
+
+    public var deletingPathExtension: String {
+        let result = self
+        
+        if let pos = result.lastIndex(of: Character(".")) {
+            return String(result[startIndex ..< pos])
+        } else {
+            return result
         }
     }
 
