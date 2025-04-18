@@ -1,10 +1,11 @@
 # filebrowser
- 
+iOSデバイスで使えるStandard MIDI Fileのブラウズに特化したアプリのサンプルです。 　
+
 - MIDIFilebrowseView.swift
 - MIDIFilebrowseView.storyboard
 
 の二つは、ViewControllerから独立した構造にしてあります。  
-なので、ご自身のXcodeプロジェクトにそのまま取り込むことができます。  
+他のクラスなどと依存関係がないので、ご自身のXcodeプロジェクトにそのまま取り込むことができます。  
 
 # extension
 FileManager、StringのextensionをMIDIFilebrowseView.swiftの中に記述しています。  
