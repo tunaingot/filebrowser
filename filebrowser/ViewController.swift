@@ -7,19 +7,31 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class ViewController: UIViewController {
     private let SELECTED_FILE_SAVE_KEY = "Selected File Path"
     private var selectedFile = ""
 
+    /*==========================================================================
+     
+     =========================================================================*/
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        viewDidLoadSubwork()
+    }
+
+}
+
+/*==============================================================================
+ 
+ =============================================================================*/
+extension ViewController: UIPopoverPresentationControllerDelegate {
+    private func viewDidLoadSubwork() {
         if let fp = UserDefaults.standard.string(forKey: SELECTED_FILE_SAVE_KEY) {
             selectedFile = fp
         }
         NotificationCenter.default.addObserver(self, selector: #selector(fileSelected(_:)), name: MIDIFilebrowseView.fileSelectFinishNotification, object: nil)
     }
-
     //MARK: - popover
     /*==========================================================================
      
@@ -55,4 +67,3 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         UserDefaults.standard.synchronize()
     }
 }
-

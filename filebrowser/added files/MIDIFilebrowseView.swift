@@ -7,16 +7,26 @@
 
 import UIKit
 
-class MIDIFilebrowseView: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class MIDIFilebrowseView: UIViewController {
     @IBOutlet weak var fileListTableView: UITableView!
-    
-    public static let fileSelectFinishNotification = Notification.Name(rawValue: "MIDIFilebrowseView.fileSelectFinishNotification")
-    public static let selectedFileKey = "MIDIFilebrowseView.selectedFileKey"  //選択されたファイルのフルパス
     
     private var doneButton: UIBarButtonItem!
     private var cancelButton: UIBarButtonItem!
+
+    /*==========================================================================
+     
+     ==========================================================================*/
+    public static let fileSelectFinishNotification = Notification.Name(rawValue: "MIDIFilebrowseView.fileSelectFinishNotification")
+    public static let selectedFileKey = "MIDIFilebrowseView.selectedFileKey"  //選択されたファイルのフルパスを取り出すキー
     
+    /*==========================================================================
+     
+     ==========================================================================*/
     private let STORYBOARD_IDENTIFY = "filebrowser"
+    
+    /*==========================================================================
+     
+     ==========================================================================*/
     fileprivate var currentDirectory = FileManager.default.documentPath!
     public var selectedFile = "" {
         didSet {
@@ -62,10 +72,34 @@ class MIDIFilebrowseView: UIViewController, UINavigationControllerDelegate, UITa
         }
     }
 
+    /*==========================================================================
+     
+     ==========================================================================*/
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        viewDidLoadSubwork()
+}
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
+
+/*==============================================================================
+ 
+ =============================================================================*/
+extension MIDIFilebrowseView: UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+    private func viewDidLoadSubwork() {
         print(currentDirectory)
         navigationController?.delegate = self
         navigationController?.isToolbarHidden = false
@@ -80,25 +114,16 @@ class MIDIFilebrowseView: UIViewController, UINavigationControllerDelegate, UITa
          ---------------------------------------------------------------------*/
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let homeButton = UIBarButtonItem(image: UIImage(systemName: "house"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(homeButton(_:)))
-//        let folderButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(folderButton(_:)))
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButton(_:)))
 
         doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButton(_:)))
         doneButton.isEnabled = false
         toolbarItems = [cancelButton, flexibleSpace, homeButton, flexibleSpace, doneButton]
-}
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
-    */
-
+    
+    /*==========================================================================
+     
+     ==========================================================================*/
     override func viewWillAppear(_ animated: Bool) {
         let displayFiles = FileManager.default.MIDIContents(ofDirectory: currentDirectory)
         var row = 0
@@ -175,6 +200,9 @@ class MIDIFilebrowseView: UIViewController, UINavigationControllerDelegate, UITa
     }
 }
 
+/*==============================================================================
+ 
+ =============================================================================*/
 extension FileManager {
     public var documentPath: String? {
         return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
@@ -265,6 +293,9 @@ extension FileManager {
     }
 }
 
+/*==============================================================================
+ 
+ =============================================================================*/
 extension String {
     public var localized: String {
         return NSLocalizedString(self, comment: "")
