@@ -179,6 +179,9 @@ extension MIDIFilebrowseView: UINavigationControllerDelegate, UITableViewDelegat
         
         if item.isDirectory {                           //ディレクトリなら
             cell.accessoryType = .disclosureIndicator   //奥の階層がある目印をつける
+            cell.imageView?.image = UIImage(systemName: "folder")
+        } else {
+            cell.imageView?.image = UIImage(systemName: "doc")
         }
         
         return cell
